@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Climate Tracker | News</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { deepblue: '#111827', navblue: '#030712', cardblue: '#1f2937', } } }
+    }
+  </script>
+  <style>
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-item { opacity: 0; animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  </style>
+</head>
+<body class="bg-deepblue font-sans text-white min-h-screen flex flex-col selection:bg-blue-200">
+  
+  <nav class="bg-navblue sticky top-0 z-50 border-b border-white/10 shadow-lg">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center h-16 text-white">
+      <a href="index.html" class="flex items-center gap-2 focus:outline-none">
+         <span class="text-xl font-medium tracking-wide">Climate Tracker</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Home</a>
+        <a href="data.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Data</a>
+        <a href="impact.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Impact Analysis</a>
+        <a href="news.html" class="text-sm font-medium text-blue-400">News</a>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <input type="text" placeholder="Search..." class="bg-white text-slate-900 rounded-md px-3 py-1.5 text-sm outline-none w-48 focus:ring-2 focus:ring-blue-500 shadow-sm">
+        <a href="donate.html" class="bg-white text-slate-900 px-4 py-1.5 text-sm font-bold rounded-[4px] hover:bg-slate-200 transition-colors shadow-sm">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-[1400px] mx-auto px-4 py-12 sm:px-6 lg:px-8 w-full flex-1">
+    <div class="mb-12 animate-item text-center">
+      <h1 class="text-4xl md:text-5xl font-black text-white tracking-tight">Weather News Feed</h1>
+      <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Latest curated reports and alerts concerning recent extreme weather phenomena across the Indian subcontinent.</p>
+    </div>
+
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Injected by JS -->
+    </div>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="w-full text-center py-20 border-t border-white/5 bg-navblue mt-12">
+    <h3 class="text-xl font-bold text-white mb-8">Connect with our platform</h3>
+    
+    <div class="flex flex-col items-center justify-center space-y-8">
+      <div class="relative group cursor-pointer w-48 h-32 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+        <div class="absolute inset-0 bg-blue-500/10 group-hover:bg-transparent transition-colors z-10 duration-300"></div>
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="Team Connection" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+           <i data-lucide="users" class="w-8 h-8 text-white drop-shadow-md"></i>
+        </div>
+      </div>
+      
+      <div class="flex justify-center gap-8">
+        <a href="#" class="text-slate-500 hover:text-blue-400 transition-colors transform hover:scale-110"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-blue-500 transition-colors transform hover:scale-110"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-pink-500 transition-colors transform hover:scale-110"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-slate-300 transition-colors transform hover:scale-110"><i data-lucide="github" class="w-6 h-6"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+  <script>
+    const MOCK_NEWS = [
+      { id: 1, title: 'Massive Landslides hit Wayanad, Over 400 Feared Dead', date: 'August 2024', category: 'Landslide', image: 'https://loremflickr.com/800/600/landslide,disaster?lock=1' },
+      { id: 2, title: 'Heatwave sweeps across North India breaching 47°C', date: 'May 2024', category: 'Heatwave', image: 'https://loremflickr.com/800/600/heatwave,desert?lock=2' },
+      { id: 3, title: 'Glacial Lake Outburst Submerges Teesta Basin in Sikkim', date: 'October 2023', category: 'Flood', image: 'https://loremflickr.com/800/600/flood,water?lock=3' },
+      { id: 4, title: 'Extreme Cloudburst triggers Flash Floods in Himachal Pradesh', date: 'August 2024', category: 'Flood', image: 'https://loremflickr.com/800/600/flood,river?lock=4' },
+      { id: 5, title: 'Cyclone Remal causes heavy destruction along Bengal Coast', date: 'May 2024', category: 'Cyclone', image: 'https://loremflickr.com/800/600/cyclone,storm?lock=5' },
+      { id: 6, title: 'Unprecedented Winter Smog Chokes Delhi, Flights Grounded', date: 'November 2024', category: 'Hazmat', image: 'https://loremflickr.com/800/600/smog,pollution?lock=6' },
+      { id: 7, title: 'Cyclone Michaung triggers devastating Chennai Floods', date: 'December 2023', category: 'Cyclone', image: 'https://loremflickr.com/800/600/hurricane,rain?lock=7' },
+      { id: 8, title: 'Yamuna River Crosses Danger Mark Sparking Delhi Evacuations', date: 'July 2023', category: 'Flood', image: 'https://loremflickr.com/800/600/flood,city?lock=8' },
+      { id: 9, title: 'Cyclone Biparjoy makes landfall in coastal Gujarat', date: 'June 2023', category: 'Cyclone', image: 'https://loremflickr.com/800/600/storm,ocean?lock=9' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('news-grid');
+      MOCK_NEWS.forEach((news, idx) => {
+        const article = document.createElement('article');
+        article.className = 'bg-cardblue rounded-3xl overflow-hidden shadow-xl border border-white/5 hover:border-white/20 transition-all duration-300 group cursor-pointer animate-item';
+        article.style.animationDelay = `${(idx + 1) * 100}ms`;
+        article.innerHTML = `
+          <div class="h-56 overflow-hidden relative border-b border-white/10">
+            <div class="absolute inset-0 bg-navblue/40 group-hover:bg-transparent transition-colors z-10"></div>
+            <img src="${news.image}" alt="${news.category}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <span class="absolute top-4 right-4 z-20 bg-deepblue/90 backdrop-blur-md text-xs font-bold px-3 py-1.5 rounded-[4px] text-white shadow-sm border border-white/10">${news.category}</span>
+          </div>
+          <div class="p-8">
+            <time class="text-xs font-bold text-blue-400 uppercase tracking-widest">${news.date}</time>
+            <h2 class="text-xl lg:text-2xl font-bold text-white mt-3 mb-4 group-hover:text-blue-300 transition-colors leading-snug">${news.title}</h2>
+            <p class="text-slate-400 text-sm leading-relaxed">Click to read the full simulated report on the impacts and recovery efforts regarding this ${news.category.toLowerCase()} event.</p>
+          </div>
+        `;
+        grid.appendChild(article);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Climate Tracker | Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            deepblue: '#111827', // Use dark slate to match screenshot feel
+            navblue: '#030712',
+            cardblue: '#1f2937',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-fade { animation: fadeIn 1s ease-in-out forwards; }
+    .animate-slide { opacity: 0; animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .delay-100 { animation-delay: 100ms; }
+    .delay-200 { animation-delay: 200ms; }
+    .delay-300 { animation-delay: 300ms; }
+  </style>
+</head>
+<body class="bg-deepblue font-sans text-white min-h-screen flex flex-col antialiased">
+  
+  <!-- Navbar -->
+  <nav class="bg-navblue sticky top-0 z-50 border-b border-white/10 shadow-lg">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center h-16">
+      <a href="index.html" class="flex items-center gap-2 focus:outline-none">
+         <span class="text-xl font-medium tracking-wide text-white">Climate Tracker</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-blue-400">Home</a>
+        <a href="data.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Data</a>
+        <a href="impact.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Impact Analysis</a>
+        <a href="news.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">News</a>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <input type="text" placeholder="Search..." class="bg-white text-slate-900 rounded-[4px] px-3 py-1.5 text-sm outline-none w-48 shadow-sm">
+        <a href="donate.html" class="bg-white text-slate-900 px-4 py-1.5 text-sm font-bold rounded-[4px] hover:bg-slate-200 transition-colors shadow-sm">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 w-full">
+    <!-- Hero Section -->
+    <section class="relative w-full h-[600px] flex items-center justify-start overflow-hidden bg-navblue">
+      <div class="absolute inset-0 w-full h-full">
+        <img src="./assets/hero.png" class="w-full h-full object-cover opacity-60 animate-fade" alt="Coastline mapping" />
+        <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-deepblue to-transparent"></div>
+        <div class="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-deepblue/80 to-transparent"></div>
+      </div>
+      
+      <div class="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 w-full animate-slide delay-100">
+        <h1 class="text-6xl md:text-8xl font-black text-white tracking-tight leading-[1.1] max-w-4xl drop-shadow-lg drop-shadow-xl">
+          See extreme weather costs in real time
+        </h1>
+      </div>
+    </section>
+
+    <!-- Why Track Section -->
+    <section class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="animate-slide delay-200">
+          <h2 class="text-4xl font-bold mb-6 text-white tracking-tight">Why track climate disaster losses</h2>
+          <p class="text-lg text-slate-300 leading-relaxed max-w-xl">
+            Our platform connects satellite feeds, insurance data, and public reports to show how extreme weather impacts economies, infrastructure, and communities.
+          </p>
+          <a href="data.html" class="inline-block mt-8 px-6 py-2 bg-white text-slate-900 font-bold text-sm hover:bg-slate-200 transition-colors rounded shadow">
+            Explore data
+          </a>
+        </div>
+        <div class="animate-slide delay-300 relative rounded-xl overflow-hidden shadow-2xl bg-white/5 border border-white/10 p-2">
+          <img src="./assets/phone.png" alt="Phone App view" class="w-full object-cover h-[400px] rounded-lg">
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-cardblue py-24 border-t border-b border-white/5">
+      <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          <div class="animate-slide delay-100 order-2 lg:order-1 relative rounded-xl overflow-hidden shadow-2xl bg-white/5 border border-white/10 p-2">
+            <img src="./assets/tablet.png" alt="Tablet dashboard" class="w-full object-cover h-[400px] rounded-lg">
+          </div>
+          <div class="animate-slide delay-200 order-1 lg:order-2">
+            <h2 class="text-4xl font-bold mb-6 text-white tracking-tight">Services</h2>
+            <p class="text-lg text-slate-300 leading-relaxed max-w-xl">
+              From risk dashboards to catastrophe modeling, we provide tools to track historical footprints and forecast real-time climate economic impacts across heavily affected global sectors.
+            </p>
+            <ul class="mt-8 space-y-4 text-slate-300">
+               <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Real-time data integration</li>
+               <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Visual catastrophe modeling</li>
+               <li class="flex items-center gap-3"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Live reporting capability</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NGO Partners Section -->
+    <section class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div class="mb-14 animate-slide delay-100 flex flex-col items-center">
+        <h2 class="text-4xl font-bold text-white tracking-tight text-center">NGO Partners on the Ground</h2>
+        <p class="text-center text-slate-400 mt-4 max-w-2xl mx-auto">These organizations lead frontline recovery and disaster management across India. Consider interacting with their initiatives.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Rapid Response -->
+        <div class="bg-cardblue rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300 animate-slide delay-100 shadow-xl border border-white/5 flex flex-col">
+          <h3 class="text-xl font-bold text-white mb-3">Rapid Response</h3>
+          <p class="text-sm text-slate-300 font-medium mb-8 flex-1 leading-relaxed">India's premier disaster response NGO, acting quickly during floods, cyclones, and earthquakes to provide immediate relief and long term rehabilitation.</p>
+          <a href="https://www.rapidresponse.org.in" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-[4px] font-bold transition-colors text-sm shadow">Support Initiative</a>
+        </div>
+
+        <!-- Goonj -->
+        <div class="bg-cardblue rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300 animate-slide delay-200 shadow-xl border border-white/5 flex flex-col">
+          <h3 class="text-xl font-bold text-white mb-3">Goonj</h3>
+          <p class="text-sm text-slate-300 font-medium mb-8 flex-1 leading-relaxed">Transforms comprehensive relief efforts by treating urban discard as a resource for rural development and post-disaster livelihood restoration.</p>
+          <a href="https://goonj.org/" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-[4px] font-bold transition-colors text-sm shadow">Support Initiative</a>
+        </div>
+
+        <!-- SEEDS -->
+        <div class="bg-cardblue rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300 animate-slide delay-300 shadow-xl border border-white/5 flex flex-col">
+          <h3 class="text-xl font-bold text-white mb-3">SEEDS</h3>
+          <p class="text-sm text-slate-300 font-medium mb-8 flex-1 leading-relaxed">A disaster management pioneer focusing on building climate resilience via community empowerment, safe schools, and disaster-resistant housing.</p>
+          <a href="https://www.seedsindia.org/" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-[4px] font-bold transition-colors text-sm shadow opacity-95">Support Initiative</a>
+        </div>
+
+        <!-- Smile Foundation -->
+        <div class="bg-cardblue rounded-2xl p-8 hover:-translate-y-2 transition-transform duration-300 animate-slide delay-300 shadow-xl border border-white/5 flex flex-col">
+          <h3 class="text-xl font-bold text-white mb-3">Smile Foundation</h3>
+          <p class="text-sm text-slate-300 font-medium mb-8 flex-1 leading-relaxed">Focused largely on education and healthcare, playing a crucial role in aiding vulnerable children and families affected by severe climate displacement.</p>
+          <a href="https://www.smilefoundationindia.org/" target="_blank" class="w-full text-center bg-blue-600 hover:bg-blue-500 text-white px-6 py-2.5 rounded-[4px] font-bold transition-colors text-sm shadow opacity-95">Support Initiative</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full text-center py-20 animate-slide delay-300 mt-auto border-t border-white/5">
+    <h3 class="text-xl font-bold text-white mb-8">Connect with our platform</h3>
+    
+    <div class="flex flex-col items-center justify-center space-y-8">
+      <div class="relative group cursor-pointer w-48 h-32 rounded-xl overflow-hidden border border-white/10 shadow-lg">
+        <div class="absolute inset-0 bg-blue-500/10 group-hover:bg-transparent transition-colors z-10 duration-300"></div>
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&q=80" alt="Team Connection" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500">
+        <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
+           <i data-lucide="users" class="w-8 h-8 text-white drop-shadow-md"></i>
+        </div>
+      </div>
+      
+      <div class="flex justify-center gap-8">
+        <a href="#" class="text-slate-500 hover:text-blue-400 transition-colors transform hover:scale-110"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-blue-500 transition-colors transform hover:scale-110"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-pink-500 transition-colors transform hover:scale-110"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+        <a href="#" class="text-slate-500 hover:text-slate-300 transition-colors transform hover:scale-110"><i data-lucide="github" class="w-6 h-6"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
