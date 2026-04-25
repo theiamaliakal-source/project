@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Climate Tracker | Impact Analysis</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { deepblue: '#111827', navblue: '#030712', cardblue: '#1f2937', } } }
+    }
+  </script>
+  <style>
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-item { opacity: 0; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+  </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 min-h-screen flex flex-col selection:bg-blue-200">
+  
+  <nav class="bg-navblue sticky top-0 z-50 border-b border-white/10 shadow-lg">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center h-16 text-white">
+      <a href="index.html" class="flex items-center gap-2 focus:outline-none">
+         <span class="text-xl font-medium tracking-wide">Climate Tracker</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Home</a>
+        <a href="data.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Data</a>
+        <a href="impact.html" class="text-sm font-medium text-blue-400">Impact Analysis</a>
+        <a href="news.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">News</a>
+      </div>
+      <div class="hidden md:flex items-center gap-4">
+        <input type="text" placeholder="Search..." class="bg-white text-slate-900 rounded-[4px] px-3 py-1.5 text-sm outline-none w-48 shadow-sm">
+        <a href="donate.html" class="bg-white text-slate-900 px-4 py-1.5 text-sm font-bold rounded-[4px] hover:bg-slate-200 transition-colors shadow-sm">Donate</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="max-w-[1400px] mx-auto px-4 py-8 sm:px-6 lg:px-8 w-full flex-1">
+    
+    <div id="no-data-view" class="hidden flex flex-col items-center justify-center py-32 text-center">
+      <i data-lucide="database" class="w-16 h-16 text-slate-300 mb-6"></i>
+      <h2 class="text-3xl font-bold text-slate-800 mb-4">No Dataset Loaded</h2>
+      <p class="text-slate-500 max-w-md mx-auto mb-8">You need to load a historical dataset or upload a CSV in the Data Center to generate an impact analysis.</p>
+      <a href="data.html" class="bg-blue-600 text-white font-bold px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition-colors">Go to Data Center</a>
+    </div>
+
+    <div id="analysis-view" class="hidden animate-item">
+      <div class="mb-10">
+        <h1 class="text-4xl font-black text-slate-800 tracking-tight flex items-center gap-3">
+          <i data-lucide="activity" class="text-blue-600"></i> Impact Score System
+        </h1>
+        <p class="text-slate-500 mt-2 text-lg">AI-generated insights and composite severity rankings based on the active dataset.</p>
+      </div>
+
+      <!-- AI Insights Section -->
+      <section class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm mb-10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
+          <i data-lucide="sparkles" class="text-purple-500 w-5 h-5"></i> Automated Insights
+        </h2>
+        <div id="insights-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+
+      <!-- Leaderboard Section -->
+      <section class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+        <div class="px-8 py-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+          <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <i data-lucide="trophy" class="text-orange-500 w-5 h-5"></i> Severe Disaster Leaderboard
+          </h2>
+          <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ranked by Composite Score</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left">
+            <thead class="bg-white text-slate-500 border-b border-slate-100 uppercase text-[10px] tracking-widest font-bold">
+              <tr>
+                <th class="px-8 py-4">Rank</th>
+                <th class="px-6 py-4">Disaster Event</th>
+                <th class="px-6 py-4">Location</th>
+                <th class="px-6 py-4 text-right">Raw Impact Score</th>
+                <th class="px-6 py-4 text-center">Impact Severity</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body" class="divide-y divide-slate-50">
+              <!-- Filled by JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      initAnalysis();
+    });
+
+    function initAnalysis() {
+      const storedData = localStorage.getItem('climateTrackerCurrentData');
+      if (!storedData || storedData === '[]') {
+        document.getElementById('no-data-view').classList.remove('hidden');
+        return;
+      }
+
+      document.getElementById('analysis-view').classList.remove('hidden');
+      const data = JSON.parse(storedData);
+      
+      // Calculate Composite Impact Score
+      // Formula: (Cost * 0.1) + (Deaths * 1) + (Displaced * 0.005) + (HousesDamaged * 0.05)
+      const scoredData = data.map(event => {
+        const costVal = parseFloat(event.Cost) || 0;
+        const deathsVal = parseInt(event.Deaths) || 0;
+        const dispVal = parseInt(event.Displaced) || 0;
+        const houseVal = parseInt(event.HousesDamaged) || 0;
+        
+        const rawScore = (costVal * 0.1) + (deathsVal * 1) + (dispVal * 0.005) + (houseVal * 0.05);
+        return { ...event, rawScore };
+      }).sort((a, b) => b.rawScore - a.rawScore); // Sort descending
+
+      renderLeaderboard(scoredData);
+      generateInsights(scoredData);
+    }
+
+    function renderLeaderboard(data) {
+      const tbody = document.getElementById('leaderboard-body');
+      
+      const topData = data.slice(0, 15); // Top 15
+      const maxScore = topData[0]?.rawScore || 1;
+
+      tbody.innerHTML = topData.map((row, idx) => {
+        // Normalize 0-100 for the bar
+        const normalized = Math.min(100, Math.max(5, (row.rawScore / maxScore) * 100));
+        
+        let rankClass = "text-slate-400";
+        if (idx === 0) rankClass = "text-yellow-500 drop-shadow-md text-lg";
+        else if (idx === 1) rankClass = "text-slate-300 drop-shadow-sm text-base";
+        else if (idx === 2) rankClass = "text-amber-600 drop-shadow-sm text-base";
+
+        return `
+          <tr class="hover:bg-slate-50 transition-colors group">
+            <td class="px-8 py-5 font-black ${rankClass}">#${idx + 1}</td>
+            <td class="px-6 py-5">
+              <div class="font-bold text-slate-800 text-sm">${row['Event Type']} (${row.Year})</div>
+              <div class="text-xs text-slate-500 mt-0.5 flex gap-2">
+                <span class="text-red-600 font-medium">${row.Deaths.toLocaleString()} Deaths</span>
+                <span class="text-blue-600 font-medium">$${row.Cost.toLocaleString()}M</span>
+              </div>
+            </td>
+            <td class="px-6 py-5 font-medium text-slate-700">${row.Location || '-'}</td>
+            <td class="px-6 py-5 text-right font-black text-slate-800 text-lg">
+              ${Math.round(row.rawScore).toLocaleString()}
+            </td>
+            <td class="px-6 py-5">
+              <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-orange-400 to-red-500 h-2.5 rounded-full" style="width: ${normalized}%"></div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function generateInsights(data) {
+      if (data.length === 0) return;
+
+      const insights = [];
+      const totalCost = data.reduce((acc, r) => acc + (parseFloat(r.Cost) || 0), 0);
+      const totalDeaths = data.reduce((acc, r) => acc + (parseInt(r.Deaths) || 0), 0);
+      
+      // Insight 1: Deadliest Event
+      const deadliest = [...data].sort((a,b) => (parseInt(b.Deaths)||0) - (parseInt(a.Deaths)||0))[0];
+      if (deadliest && deadliest.Deaths > 0) {
+        insights.push({
+          icon: 'skull', color: 'text-red-500', bg: 'bg-red-50',
+          title: 'Maximum Human Toll',
+          desc: `The deadliest event recorded is the <strong>${deadliest['Event Type']} in ${deadliest.Location} (${deadliest.Year})</strong>, claiming ${deadliest.Deaths.toLocaleString()} lives.`
+        });
+      }
+
+      // Insight 2: Costliest Event
+      const costliest = [...data].sort((a,b) => (parseFloat(b.Cost)||0) - (parseFloat(a.Cost)||0))[0];
+      if (costliest && costliest.Cost > 0) {
+        insights.push({
+          icon: 'building-2', color: 'text-blue-500', bg: 'bg-blue-50',
+          title: 'Highest Economic Damage',
+          desc: `The costliest event is the <strong>${costliest['Event Type']} (${costliest.Year})</strong> at ${costliest.Location}, with an estimated economic loss of $${costliest.Cost.toLocaleString()}M.`
+        });
+      }
+
+      // Insight 3: Type Analysis (Flood vs Heatwave etc)
+      const typeStats = {};
+      data.forEach(r => {
+        const t = r['Event Type'] || 'Unknown';
+        if (!typeStats[t]) typeStats[t] = { count: 0, deaths: 0, cost: 0 };
+        typeStats[t].count++;
+        typeStats[t].deaths += parseInt(r.Deaths) || 0;
+        typeStats[t].cost += parseFloat(r.Cost) || 0;
+      });
+
+      const typesArray = Object.keys(typeStats).map(t => ({ name: t, ...typeStats[t] }));
+      typesArray.sort((a, b) => b.count - a.count);
+      const mostFrequent = typesArray[0];
+
+      if (mostFrequent) {
+        insights.push({
+          icon: 'bar-chart-2', color: 'text-purple-500', bg: 'bg-purple-50',
+          title: 'Most Frequent Disaster Type',
+          desc: `<strong>${mostFrequent.name}s</strong> are the most frequently recorded disaster type in this dataset, occurring ${mostFrequent.count} times and accounting for $${Math.round(mostFrequent.cost).toLocaleString()}M in damages.`
+        });
+      }
+
+      // Insight 4: Decadal Trend
+      const recentDecadeData = data.filter(r => r.Year >= 2014);
+      const previousDecadeData = data.filter(r => r.Year >= 2004 && r.Year < 2014);
+      
+      if (recentDecadeData.length > 0 && previousDecadeData.length > 0) {
+        const recentCost = recentDecadeData.reduce((acc, r) => acc + (parseFloat(r.Cost) || 0), 0);
+        const prevCost = previousDecadeData.reduce((acc, r) => acc + (parseFloat(r.Cost) || 0), 0);
+        
+        let trendDesc = '';
+        if (recentCost > prevCost) {
+          const increase = (((recentCost - prevCost) / prevCost) * 100).toFixed(1);
+          trendDesc = `Economic damage has <strong>increased by ${increase}%</strong> in the last decade (2014-present) compared to the preceding decade.`;
+        } else {
+          trendDesc = `Economic damage is tracking lower in the recent decade compared to massive spikes in the 2004-2013 period.`;
+        }
+
+        insights.push({
+          icon: 'trending-up', color: 'text-teal-500', bg: 'bg-teal-50',
+          title: 'Decadal Trend Analysis',
+          desc: trendDesc
+        });
+      }
+
+      const container = document.getElementById('insights-container');
+      container.innerHTML = insights.map(i => `
+        <div class="p-6 rounded-2xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition-colors">
+          <div class="w-10 h-10 rounded-full ${i.bg} flex items-center justify-center mb-4 border border-white">
+            <i data-lucide="${i.icon}" class="w-5 h-5 ${i.color}"></i>
+          </div>
+          <h3 class="font-bold text-slate-800 text-sm mb-2">${i.title}</h3>
+          <p class="text-sm text-slate-600 leading-relaxed">${i.desc}</p>
+        </div>
+      `).join('');
+
+      lucide.createIcons(); // Re-init icons for the new HTML
+    }
+  </script>
+</body>
+</html>
